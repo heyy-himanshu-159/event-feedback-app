@@ -1,23 +1,43 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import FeedbackForm from './components/FeedbackForm';
+import Dashboard from './components/Dashboard';
 import './App.css';
 
 function App() {
+  const [currentPage, setCurrentPage] = useState('feedback');
+  const [feedbacks, setFeedbacks] = useState([]);
+
+  const addFeedback = (feedback) => {
+    setFeedbacks([...feedbacks, feedback]);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div className="app">
+      <header className="header">
+        <h1>🎯 Smart Event Feedback</h1>
+        <nav>
+          <button
+            className={currentPage === 'feedback' ? 'active' : ''}
+            onClick={() => setCurrentPage('feedback')}
+          >
+            Give Feedback
+          </button>
+          <button
+            className={currentPage === 'dashboard' ? 'active' : ''}
+            onClick={() => setCurrentPage('dashboard')}
+          >
+            Dashboard
+          </button>
+        </nav>
       </header>
+
+      <main>
+        {currentPage === 'feedback' ? (
+          <FeedbackForm addFeedback={addFeedback} />
+        ) : (
+          <Dashboard feedbacks={feedbacks} />
+        )}
+      </main>
     </div>
   );
 }
